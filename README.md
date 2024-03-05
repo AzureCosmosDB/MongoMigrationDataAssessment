@@ -121,7 +121,99 @@ In the report, if both the database name and collection name are blank for a fea
 
 Each of the above incompatibility types may contain an array of identified incompatibilities. The incompatibilities are  
 
+```
+"issues": { 
+        "idTypeNonCompatibleShardKey": [ 
+            { 
+                "databaseName": "testDatabase", 
+                "collectionName": "testCollection", 
+                "isComplete": true, 
+                "nonCompatibleShardKeyTypes": [ 
+                    { 
+                        "type": "ObjectId", 
+                        "ids": [ 
+                            "65cca107e205c1d8665ddd6e", 
+                            "65cca107e205c1d8665ddd6f" 
+                        ] 
+                    } 
+                ] 
+            } 
+        ], 
+        "duplicateId": [ 
+            { 
+                "databaseName": "testDatabase1", 
+                "collectionName": "testCollection1", 
+                "isComplete": true, 
+                "duplicateIds": [ 
+                    { 
+                        "id": "65cda286493ca0dbca026dfd", 
+                        "type": "ObjectId" 
+                    } 
+                ] 
+            } 
+        ], 
+        "unsupportedDocumentSize": [ 
+            { 
+                "databaseName": "testDatabase2", 
+                "collectionName": "testCollection2", 
+                "isComplete": true, 
+                "documentList": [ 
+                    { 
+                        "documentId": "65cda286493ca0dbca026dfd", 
+                        "documentSize": "2100284" 
+                    } 
+                ] 
+            } 
 
+        ], 
+        "unsupportedFieldsForUniqueIndex": [ 
+            { 
+                "databaseName": "testDatabase3", 
+                "collectionName": "testCollection3", 
+                "isComplete": true, 
+                "documentsList": { 
+                    "65df6ef58f8cce6a2cd8764b": { 
+                        "documentId": "65df6ef58f8cce6a2cd8764b", 
+                        "indexList": { 
+                            "a_1": { 
+                                "indexName": "testIndexName", 
+                                "fields": [ 
+                                    { 
+                                        "fieldName": "testIndexFieldName", 
+                                        "fieldType": "Array" 
+                                    } 
+                                ] 
+                            } 
+                        } 
+                    } 
+                } 
+            } 
+        ], 
+        "unsupportedFieldsForTTLIndex": [ 
+            { 
+                "databaseName": "testDatabase4",
+                "collectionName": "testCollection4", 
+                "isComplete": true, 
+                "documentsList": { 
+                    "65cdaa87493ca0dbca026e03": { 
+                        "documentId": "65cdaa87493ca0dbca026e03", 
+                        "indexList": { 
+                            "a_1": { 
+                                "indexName": "testIndexName1", 
+                                "fields": [ 
+                                    { 
+                                        "fieldName": "testIndexFieldName1", 
+                                        "fieldType": "Array" 
+                                    } 
+                                ] 
+                            } 
+                        } 
+                    } 
+                } 
+            } 
+        ] 
+    } 
+```
 ### Feature Analysis 
 
 #### What do we mean by Feature Analysis? 
