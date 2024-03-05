@@ -44,6 +44,7 @@ This tool enables data assessment for MongoDB versions 4.4 and higher. The asses
  ### Assessment command parameters 
 
 **-c | --connectionString** *(Required)*
+
 Source MongoDB endpoint connection string 
   - The hostname or IP should be one either privately or publicly accessible from the client machine. 
   - The credentials specified should have minimum readAnyDatabase and clusterMonitor [roles](https://www.mongodb.com/docs/manual/reference/built-in-roles/#mongodb-authrole-clusterMonitor) assigned.
@@ -54,7 +55,7 @@ Source MongoDB endpoint connection string
 
 Target version is the version of Azure Cosmos DB for MongoDB that you want to migrate to. The possible values are RU and vCore corresponding to RU and vCore offerings of Azure Cosmos DB for MongoDB. 
 
-**-l | --logFilePath** (Optional)
+**-l | --logFilePath** *(Optional)*
 
 Path to the directory containing MongoDB logs. These logs will be used for feature and query analysis. 
 
@@ -93,7 +94,7 @@ The data assessment report is a Json file with the following keys:
 
 **features**: This field contains an array having feature usage details. The exact details present are database name, collection name, feature name and feature usage count.  
 
-In the report, if both the database name and collection name are blank for a feature, it means the feature was run at instance level, example: setParameter. When only collection name is blank, it means that the feature was run at database level, example: listCollections. 
+In the report, if both the database name and collection name are blank for a feature, it means the feature was run at instance level, example: ```setParameter```. When only collection name is blank, it means that the feature was run at database level, example: ```listCollections```. 
 ```
 "features": [ 
         { 
@@ -248,11 +249,11 @@ There are multiple [components](https://www.mongodb.com/docs/manual/reference/lo
   - [query](https://www.mongodb.com/docs/manual/reference/log-messages/#mongodb-data-QUERY): Messages related to queries, because queries can have [aggregations](https://www.mongodb.com/docs/manual/aggregation/). 
   - [write](https://www.mongodb.com/docs/manual/reference/log-messages/#mongodb-data-WRITE): Messages related to write operations, because write/update can also have [aggregations](https://www.mongodb.com/docs/manual/aggregation/). 
 
-MongoDB provides a construct in log settings called [verbosity levels](https://www.mongodb.com/docs/manual/reference/log-messages/#verbosity-levels). By changing the log verbosity settings, a user can instruct MongoDB to increase or decrease the amount of log messages. This setting can be set either for all the components or for some specific components too. Verbosity levels varies from 0 to 5 with 0 being the least verbose and 5 being most verbose. Changing the log verbosity for the above-mentioned components will serve the purpose of getting logs for features and queries used by your application.   
+MongoDB provides a construct in log settings called [verbosity levels](https://www.mongodb.com/docs/manual/reference/log-messages/#verbosity-levels). By changing the log verbosity settings, a user can instruct MongoDB to increase or decrease the amount of log messages. This setting can be set either for all the components or for some specific components too. [Verbosity levels](https://www.mongodb.com/docs/manual/reference/parameters/#mongodb-parameter-param.logComponentVerbosity) varies from 0 to 5 with 0 being the least verbose and 5 being most verbose. Changing the log verbosity for the above-mentioned components will serve the purpose of getting logs for features and queries used by your application.   
 
 Before altering the log settings, you need to check the existing log settings. You can use the [db.getLogComponents()](https://www.mongodb.com/docs/manual/reference/method/db.getLogComponents/#mongodb-method-db.getLogComponents) mongosh (mongo shell) method to get the current log verbosity settings. 
 
-In order to alter the verbosity settings, you need to run an [admin](https://www.mongodb.com/docs/manual/reference/command/nav-administration/) command from mongosh (mongo shell) with following parameters: 
+In order to alter the verbosity settings, you need to run an [admin](https://www.mongodb.com/docs/manual/reference/command/nav-administration/) command from mongosh (mongo shell) with following with [setParameter](https://www.mongodb.com/docs/manual/reference/command/setParameter/#mongodb-dbcommand-dbcmd.setParameter) and [logComponentVerbosity](https://www.mongodb.com/docs/manual/reference/parameters/#mongodb-parameter-param.logComponentVerbosity) parameters: 
 ```
 setParameter: 1 
 logComponentVerbosity: {verbosity settings document} 
