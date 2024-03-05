@@ -43,23 +43,36 @@ This tool enables data assessment for MongoDB versions 4.4 and higher. The asses
 
  ### Assessment command parameters 
 
-**-c | --connectionString** *(Required)*: Source MongoDB endpoint connection string 
+**-c | --connectionString** *(Required)*
+Source MongoDB endpoint connection string 
   - The hostname or IP should be one either privately or publicly accessible from the client machine. 
-  - The credentials specified should have minimum readAnyDatabase and clusterMonitor roles assigned.
+  - The credentials specified should have minimum readAnyDatabase and clusterMonitor [roles](https://www.mongodb.com/docs/manual/reference/built-in-roles/#mongodb-authrole-clusterMonitor) assigned.
   - In case of a sharded cluster, use the connection string of the mongos instance.
   - Special characters in username and password will need to be percent-encoded before adding them to the connection string. You may use a publicly available [URL encoder](https://www.urlencoder.org/) to do the encoding. 
 
-**-t | --targetVersion** *(Required)*: Target version is the version of Azure Cosmos DB for MongoDB that you want to migrate to. The possible values are RU and vCore corresponding to RU and vCore offerings of Azure Cosmos DB for MongoDB. 
+**-t | --targetVersion** *(Required)*
 
-**-l | --logFilePath** (Optional): Path to the directory containing MongoDB logs. These logs will be used for feature and query analysis. 
+Target version is the version of Azure Cosmos DB for MongoDB that you want to migrate to. The possible values are RU and vCore corresponding to RU and vCore offerings of Azure Cosmos DB for MongoDB. 
 
-**-o | --outputFolderPath** *(Optional)*: Path to the directory where the output of data assessment will be stored. The default output folder is *C:\Users\<usernamne>\AppData\Local\Temp\MongoDataAssessment\Reports*
+**-l | --logFilePath** (Optional)
 
-**-ca | --collectionsToAssessFilePath** *(Optional)*: To assess only specific collections from the cluster. Users can provide those collection namespaces in a file (one namespace per line). This argument is the path to the file containing namespaces of collections to assess in data assessment. 
+Path to the directory containing MongoDB logs. These logs will be used for feature and query analysis. 
 
-**-ce | --collectionsToExcludeFilePath** *(Optional)*:To exclude specific collections from the cluster for data assessment. Users can provide those collection namespaces (databasename.collectionname) in a file (one namespace per line). This argument is the path to the file containing namespaces of collections to exclude in data assessment. 
+**-o | --outputFolderPath** *(Optional)*
 
-**-g | --getCompleteDetails** *(Optional)*:The tool by default returns a maximum of 20 documents per collection for each check done as part of data assessment. If users want to get all the documents rather than 20, they can pass the value of this argument as true.  
+Path to the directory where the output of data assessment will be stored. The default output folder is *C:\Users\<usernamne>\AppData\Local\Temp\MongoDataAssessment\Reports*
+
+**-ca | --collectionsToAssessFilePath** *(Optional)*
+
+To assess only specific collections from the cluster. Users can provide those collection namespaces in a file (one namespace per line). This argument is the path to the file containing namespaces of collections to assess in data assessment. 
+
+**-ce | --collectionsToExcludeFilePath** *(Optional)*
+
+To exclude specific collections from the cluster for data assessment. Users can provide those collection namespaces (databasename.collectionname) in a file (one namespace per line). This argument is the path to the file containing namespaces of collections to exclude in data assessment. 
+
+**-g | --getCompleteDetails** *(Optional)*
+
+The tool by default returns a maximum of 20 documents per collection for each check done as part of data assessment. If users want to get all the documents rather than 20, they can pass the value of this argument as *true*.  
 
 ### Understanding the data assessment report 
 
@@ -228,18 +241,18 @@ During feature analysis, we have ensured that we don’t add any significant ove
 
 We parse the log files to get the features used in customer’s application. The default settings of logging don’t capture all the features. So, you need to alter log settings and MongoDB provides an option to alter the logging settings extensively to get more information from the logs. 
 
-There are multiple components of MongoDB logs which are discussed in their official documentation. For the current use case to fetch features, you need to alter settings for following components: 
+There are multiple [components](https://www.mongodb.com/docs/manual/reference/log-messages/#components) of MongoDB logs which are discussed in their official documentation. For the current use case to fetch features, you need to alter settings for following components: 
 
-  - command: Messages related to database commands, such as create. 
-  - index: Messages related to indexing operations, such as creating indexes. 
-  - query: Messages related to queries, because queries can have aggregations. 
-  - write: Messages related to write operations, because write/update can also have aggregations. 
+  - [command](https://www.mongodb.com/docs/manual/reference/log-messages/#mongodb-data-COMMAND): Messages related to database commands, such as [create](https://www.mongodb.com/docs/v5.3/reference/command/create/#mongodb-dbcommand-dbcmd.create). 
+  - [index](https://www.mongodb.com/docs/manual/reference/log-messages/#mongodb-data-INDEX): Messages related to indexing operations, such as creating indexes. 
+  - [query](https://www.mongodb.com/docs/manual/reference/log-messages/#mongodb-data-QUERY): Messages related to queries, because queries can have [aggregations](https://www.mongodb.com/docs/manual/aggregation/). 
+  - [write](https://www.mongodb.com/docs/manual/reference/log-messages/#mongodb-data-WRITE): Messages related to write operations, because write/update can also have [aggregations](https://www.mongodb.com/docs/manual/aggregation/). 
 
-MongoDB provides a construct in log settings called verbosity levels. By changing the log verbosity settings, a user can instruct MongoDB to increase or decrease the amount of log messages. This setting can be set either for all the components or for some specific components too. Verbosity levels varies from 0 to 5 with 0 being the least verbose and 5 being most verbose. Changing the log verbosity for the above-mentioned components will serve the purpose of getting logs for features and queries used by your application.   
+MongoDB provides a construct in log settings called [verbosity levels](https://www.mongodb.com/docs/manual/reference/log-messages/#verbosity-levels). By changing the log verbosity settings, a user can instruct MongoDB to increase or decrease the amount of log messages. This setting can be set either for all the components or for some specific components too. Verbosity levels varies from 0 to 5 with 0 being the least verbose and 5 being most verbose. Changing the log verbosity for the above-mentioned components will serve the purpose of getting logs for features and queries used by your application.   
 
-Before altering the log settings, you need to check the existing log settings. You can use the db.getLogComponents() mongosh (mongo shell) method to get the current log verbosity settings. 
+Before altering the log settings, you need to check the existing log settings. You can use the [db.getLogComponents()](https://www.mongodb.com/docs/manual/reference/method/db.getLogComponents/#mongodb-method-db.getLogComponents) mongosh (mongo shell) method to get the current log verbosity settings. 
 
-In order to alter the verbosity settings, you need to run an admin command from mongosh (mongo shell) with following parameters: 
+In order to alter the verbosity settings, you need to run an [admin](https://www.mongodb.com/docs/manual/reference/command/nav-administration/) command from mongosh (mongo shell) with following parameters: 
 ```
 setParameter: 1 
 logComponentVerbosity: {verbosity settings document} 
@@ -270,7 +283,7 @@ Run ```db.getLogComponents()``` in mongosh (mongo shell)
 
 ### How do you configure log verbosity settings? 
 
-Refer to log verbosity settings mentioned above. For further details refer to official MongoDB documentation. 
+Refer to log verbosity settings mentioned above. For further details refer to official MongoDB [documentation](https://www.mongodb.com/docs/manual/reference/log-messages/#configure-log-verbosity-levels). 
 
 ### What happens if an instance is restarted? 
 
