@@ -55,9 +55,9 @@ This tool enables data assessment for MongoDB versions 4.4 and higher. The asses
 
 **-o | --outputFolderPath** *(Optional)*: Path to the directory where the output of data assessment will be stored. The default output folder is *C:\Users\<usernamne>\AppData\Local\Temp\MongoDataAssessment\Reports*
 
-**-ca | --collectionsToAssessFilePath** *(Optional)*: The tool allows functionality to assess only specific collections from the cluster. Users can provide those collection namespaces in a file (one namespace per line). This argument is the path to the file containing namespaces of collections to assess in data assessment. 
+**-ca | --collectionsToAssessFilePath** *(Optional)*: To assess only specific collections from the cluster. Users can provide those collection namespaces in a file (one namespace per line). This argument is the path to the file containing namespaces of collections to assess in data assessment. 
 
-**-ce | --collectionsToExcludeFilePath** *(Optional)*:The tool allows functionality to exclude specific collections from the cluster for data assessment. Users can provide those collection namespaces in a file (one namespace per line). This argument is the path to the file containing namespaces of collections to exclude in data assessment. 
+**-ce | --collectionsToExcludeFilePath** *(Optional)*:To exclude specific collections from the cluster for data assessment. Users can provide those collection namespaces (databasename.collectionname) in a file (one namespace per line). This argument is the path to the file containing namespaces of collections to exclude in data assessment. 
 
 **-g | --getCompleteDetails** *(Optional)*:The tool by default returns a maximum of 20 documents per collection for each check done as part of data assessment. If users want to get all the documents rather than 20, they can pass the value of this argument as true.  
 
@@ -65,14 +65,14 @@ This tool enables data assessment for MongoDB versions 4.4 and higher. The asses
 
 The data assessment report is a Json file with the following keys: 
 
-**host** :The host details of the source MongoDB endpoint provided by you while executing the data assessment exe. 
+**host**: The host details of the source MongoDB endpoint provided by you while executing the data assessment exe. 
 
 ```
 "host": "test-cluster.mongodb.net", 
 ```
  
 
-**targetVersion**:The version of Azure Cosmos DB for MongoDB chosen by you while executing the data assessment exe. 
+**targetVersion**: The version of Azure Cosmos DB for MongoDB chosen by you while executing the data assessment exe. 
 ```
 "targetVersion": "RU", 
 ```
@@ -105,7 +105,7 @@ In the report, if both the database name and collection name are blank for a fea
                 } 
             ] 
         } 
-    ], 
+    ]
  ```
 **Issues**: This field contains the data related incompatibilities identified during data assessment. The following are the incompatibilities which will be present in issues: 
 
