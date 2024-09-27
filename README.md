@@ -12,17 +12,18 @@ This tool enables data assessment for MongoDB versions 4.4 and higher. The asses
 
 ## How to run data assessment
 
-### Pre-requisites 
+### Pre-requisites
 
 - .net runtime 6.0 
 - The client machine on which you plan to run data assessment should have access to the source MongoDB endpoint either over private or public network.
-- The user connected to MongoDB should have access to readAnyDatabase and clusterMonitor roles assigned on the source instance. 
+- The user connected to MongoDB should have access to `readAnyDatabase` and `clusterMonitor` roles assigned on the source instance. 
 
-### Steps to run data assessment 
+### Steps to run data assessment
 
-1. Download the release and unzip it. 
-2. Navigate to the unzipped directory from Comand Line (cmd). 
-3. Execute the command below to run data assessment based on details available in source endpoint by default. This method does not need any preparation and can be run anytime.
+1. Download the latest zip from the **Releases** section located in the right pane of this repo.
+1. Unzip  the downloaded zip.
+1. Navigate to the unzipped directory from Comand Line (cmd). 
+1. Execute the command below to run data assessment based on details available in source endpoint by default. This method does not need any preparation and can be run anytime.
     ```DOS
     MongoDataAssessment.exe -c "source-mongodb-connection-string" -t RU
     ```
